@@ -27,11 +27,30 @@
  */
 
 // ↓ uncomment bellow lines and add your response!
-/*
 export default function ({ messages }: { messages: Message[] }): DayMessages[] {
-    return [];
+    const res: { [dayString: string]: DayMessages } = {};
+
+    for (const m of messages) {
+        const d = new Date(m.sentAt);
+        d.setUTCHours(0);
+        d.setUTCMinutes(0);
+        d.setUTCSeconds(0);
+        d.setUTCMilliseconds(0);
+        const dayString = d.toISOString();
+        if (!res[dayString]) {
+            res[dayString] = { day: dayString, messages: [] }
+        }
+
+        res[dayString].messages.push(m)
+    }
+
+    const resArray = Object.values(res).sort((a, b) => a.day < b.day ? -1 : 1);
+    for (const entry of resArray) {
+        entry.messages.sort((a, b) => a.sentAt < b.sentAt ? -1 : 1)
+    }
+
+    return resArray;
 }
-*/
 
 // used interfaces, do not touch
 export interface Message {

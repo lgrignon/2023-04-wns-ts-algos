@@ -9,11 +9,18 @@
  */
 
 // ↓ uncomment bellow lines and add your response!
-/*
+
 export default function ({ groups }: { groups: Group[] }): GroupWithSills[] {
-    return [];
+    return groups.map(g => {
+        const skills = g.students.reduce((skills: Set<string>, student: Student) => {
+            for (const skill of student.skills) { skills.add(skill) }
+            return skills;
+        }, new Set<string>());
+
+        return { ...g, skills: Array.from(skills).sort() };
+    });
 }
-*/
+
 
 // used interfaces, do not touch
 interface Student {
